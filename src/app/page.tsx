@@ -156,12 +156,28 @@ export default function Home() {
       {/* ===== SECTION 1: HERO ===== */}
       <section className="px-4 py-14 sm:py-20">
         <div className="mx-auto max-w-5xl">
+          {/* Lead Magnet Bridge */}
+          <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-primary/25 bg-primary/5 p-4 sm:p-5 text-center" style={{ boxShadow: '0 0 30px rgba(212,175,55,0.06)' }}>
+            <p className="text-sm sm:text-base font-bold text-foreground leading-snug">
+              📥 ¡Tu copia de <span className="text-primary">&quot;Atracción Silenciosa&quot;</span> ya la tienes descargada!
+            </p>
+            <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              Pero ojo: ese manual gratuito es solo la <strong className="text-foreground">puerta de entrada</strong>.
+            </p>
+            <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              El <strong className="text-primary">Manual Dominante Magnético</strong> es el paso avanzado que necesitas para cruzar esa puerta. Aquí no solo vas a aprender a &quot;no perseguir&quot;, sino a <strong className="text-foreground">dominar la dinámica por completo</strong> para que sea ella quien busque tu atención.
+            </p>
+            <p className="mt-3 text-[11px] sm:text-xs tracking-wide text-primary/70 font-semibold">
+              ↓ Sigue leyendo abajo para descubrir cómo funciona... ↓
+            </p>
+          </div>
+
           <div className="mb-4 flex justify-center">
             <span className="chip text-[10px] leading-tight sm:text-sm sm:whitespace-nowrap max-w-[92vw] text-center">
               🔥 Para hombres que quieren llevarse a las mujeres más deseadas
             </span>
           </div>
-          <h1 className="text-center font-display text-3xl sm:text-5xl md:text-6xl font-bold leading-tight">
+          <h1 className="text-center font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
             Son las 2 AM. Tu mensaje sigue en{' '}
             <span className="text-primary italic">&quot;visto&quot;</span>… y en su historia ella sale riéndose con OTRO.
           </h1>
