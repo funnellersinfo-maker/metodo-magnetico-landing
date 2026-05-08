@@ -8,22 +8,16 @@ const PRICE_LOCAL = '($14 USD APROX = $55.900 COP / $299 MXN)';
 
 const PAYMENT_BADGES = (
   <div className="mt-4 flex flex-col items-center gap-2">
-    <div className="flex items-center gap-2 flex-wrap justify-center">
-      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
-        <span className="text-red-500 font-bold text-xs">OXXO</span>
-      </span>
-      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
-        <span className="text-green-500 font-bold text-xs">Efecty</span>
-      </span>
-      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
-        <span className="text-blue-400 font-bold text-xs">PSE</span>
-      </span>
-      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground italic text-blue-300">VISA</span>
-      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
-        <span className="rounded bg-orange-500/20 px-1.5 py-0.5 text-[9px] font-bold text-orange-400">MC</span>
-      </span>
+    <div className="flex items-center gap-2.5 flex-wrap justify-center">
+      <Image src="/assets/logo-visa.png" alt="Visa" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-mastercard.png" alt="Mastercard" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-oxxo.png" alt="OXXO" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-efecty.png" alt="Efecty" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-pse.png" alt="PSE" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-nequi.png" alt="Nequi" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <Image src="/assets/logo-bancolombia.png" alt="Bancolombia" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
     </div>
-    <p className="text-center text-[10px] text-muted-foreground">Pago seguro y disponible en efectivo en tu moneda local (OXXO/Efecty)</p>
+    <p className="text-center text-[10px] text-muted-foreground">🔒 Pago 100% seguro · Al tocar el botón verás siempre el precio en tu moneda local</p>
   </div>
 );
 
