@@ -40,6 +40,72 @@ function useCountdown(initialMinutes = 14, initialSeconds = 51) {
   return time;
 }
 
+function useBackgroundMusic(videoSoundActive: boolean) {
+  const storeRef = useRef<{ a1: HTMLAudioElement | null; a2: HTMLAudioElement | null; cur: HTMLAudioElement | null; on: boolean }>({ a1: null, a2: null, cur: null, on: false });
+  const vidRef = useRef(videoSoundActive);
+
+  // Sync video state + pause/resume
+  useEffect(() => {
+    vidRef.current = videoSoundActive;
+    const s = storeRef.current;
+    if (!s.cur || !s.on) return;
+    if (videoSoundActive) {
+      s.cur.pause();
+    } else {
+      s.cur.play().catch(() => {});
+    }
+  }, [videoSoundActive]);
+
+  // Init audio once
+  useEffect(() => {
+    const a1 = new Audio('/assets/song1.mp3');
+    const a2 = new Audio('/assets/song2.mp3');
+    a1.preload = 'auto';
+    a2.preload = 'auto';
+    const s = storeRef.current;
+    s.a1 = a1; s.a2 = a2; s.cur = a1;
+
+    const onEnd = () => {
+      const st = storeRef.current;
+      st.cur = st.cur === st.a1 ? st.a2 : st.a1;
+      if (!vidRef.current) st.cur.play().catch(() => {});
+    };
+    a1.addEventListener('ended', onEnd);
+    a2.addEventListener('ended', onEnd);
+
+    const start = () => {
+      const st = storeRef.current;
+      if (st.on) return;
+      st.on = true;
+      st.cur.volume = 0;
+      st.cur.play().catch(() => {});
+      // Fade in de 0 a 0.7 en 2 segundos
+      const fade = setInterval(() => {
+        if (!st.cur) { clearInterval(fade); return; }
+        if (st.cur.volume < 0.68) {
+          st.cur.volume = Math.min(0.7, st.cur.volume + 0.035);
+        } else {
+          st.cur.volume = 0.7;
+          clearInterval(fade);
+        }
+      }, 100);
+      document.removeEventListener('touchstart', start);
+      document.removeEventListener('click', start);
+    };
+
+    document.addEventListener('touchstart', start, { once: true });
+    document.addEventListener('click', start, { once: true });
+
+    return () => {
+      a1.removeEventListener('ended', onEnd);
+      a2.removeEventListener('ended', onEnd);
+      a1.pause(); a2.pause();
+    };
+  }, []);
+
+  return null;
+}
+
 function useViewersCount() {
   const [count, setCount] = useState(212);
   useEffect(() => {
@@ -92,6 +158,8 @@ export default function Home() {
   const [videoEnded, setVideoEnded] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoSoundPlaying = soundActivated && !isPaused && !videoEnded;
+  useBackgroundMusic(videoSoundPlaying);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
