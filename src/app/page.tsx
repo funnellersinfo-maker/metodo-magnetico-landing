@@ -4,6 +4,28 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const HOTMART_LINK = 'https://go.hotmart.com/A105474958L?ap=88bf';
+const PRICE_LOCAL = '($14 USD APROX = $55.900 COP / $299 MXN)';
+
+const PAYMENT_BADGES = (
+  <div className="mt-4 flex flex-col items-center gap-2">
+    <div className="flex items-center gap-2 flex-wrap justify-center">
+      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
+        <span className="text-red-500 font-bold text-xs">OXXO</span>
+      </span>
+      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
+        <span className="text-green-500 font-bold text-xs">Efecty</span>
+      </span>
+      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
+        <span className="text-blue-400 font-bold text-xs">PSE</span>
+      </span>
+      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground italic text-blue-300">VISA</span>
+      <span className="inline-flex items-center gap-1 rounded border border-border/60 bg-card px-2 py-1 text-[10px] font-semibold tracking-wide text-foreground">
+        <span className="rounded bg-orange-500/20 px-1.5 py-0.5 text-[9px] font-bold text-orange-400">MC</span>
+      </span>
+    </div>
+    <p className="text-center text-[10px] text-muted-foreground">Pago seguro y disponible en efectivo en tu moneda local (OXXO/Efecty)</p>
+  </div>
+);
 
 function useCountdown(initialMinutes = 14, initialSeconds = 51) {
   const [time, setTime] = useState({ minutes: initialMinutes, seconds: initialSeconds });
@@ -181,7 +203,8 @@ export default function Home() {
               🔥 QUIERO DEJAR DE SER IGNORADO — $14 USD
             </a>
             <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Hoy solo $14 USD</p>
-            <p className="mt-3 text-center text-xs text-muted-foreground">En el formulario de pago se mostrará el precio en tu moneda local</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
+            {PAYMENT_BADGES}
           </div>
 
           {/* Social Proof Box */}
@@ -198,6 +221,7 @@ export default function Home() {
             <div className="mt-4">
               <a href={HOTMART_LINK} className="cta-btn">DESCARGAR →</a>
             </div>
+            <p className="mt-2 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
           </div>
         </div>
       </section>
@@ -458,6 +482,7 @@ export default function Home() {
               🔥 QUIERO MENSAJES QUE SÍ FUNCIONEN — $14 USD
             </a>
             <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Acceso inmediato · 6 ebooks · Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
           </div>
         </div>
       </section>
@@ -527,6 +552,8 @@ export default function Home() {
             <p className="mt-3 text-sm">Hoy te lo llevas todo por:</p>
             <p className="mt-1 font-display text-6xl font-bold text-primary">$14<span className="text-xl">USD</span></p>
             <p className="mt-3 text-xs text-muted-foreground">Pago único • Acceso instantáneo • Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
+            {PAYMENT_BADGES}
           </div>
         </div>
       </section>
@@ -585,6 +612,7 @@ export default function Home() {
           </p>
           <div className="mx-auto mt-6 max-w-md">
             <a href={HOTMART_LINK} className="cta-btn">🔥 LO QUIERO TODO POR $14 USD</a>
+            <p className="mt-2 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
           </div>
         </div>
       </section>
@@ -624,6 +652,7 @@ export default function Home() {
           <div className="mx-auto mt-6 max-w-md">
             <a href={HOTMART_LINK} className="cta-btn">🎁 RECLAMAR MIS BONOS — $14 USD</a>
             <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Pago único · Acceso inmediato · Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
           </div>
         </div>
       </section>
@@ -671,6 +700,7 @@ export default function Home() {
               🔥 YA NO QUIERO QUE ME IGNOREN — $14 USD
             </a>
             <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Acceso inmediato · Pago único · 6 ebooks · Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
           </div>
         </div>
       </section>
@@ -755,6 +785,8 @@ export default function Home() {
               </a>
             </div>
             <p className="mt-4 text-center text-xs text-muted-foreground">🔒 Pago seguro · ✅ Garantía 7 días · 📱 Acceso inmediato</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
+            {PAYMENT_BADGES}
           </div>
         </div>
       </section>
@@ -777,6 +809,7 @@ export default function Home() {
                 🛡️ ME LO LLEVO SIN RIESGO — $14 USD
               </a>
               <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Si no te funciona como prometido, te devuelvo cada centavo</p>
+              <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
             </div>
           </div>
         </div>
@@ -807,6 +840,8 @@ export default function Home() {
               🔥 BASTA. LO QUIERO TODO POR $14 USD
             </a>
             <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Pago único · Acceso inmediato · Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">{PRICE_LOCAL}</p>
+            {PAYMENT_BADGES}
           </div>
         </div>
       </section>
