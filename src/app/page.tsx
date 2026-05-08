@@ -159,7 +159,7 @@ export default function Home() {
           {/* Lead Magnet Bridge */}
           <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-primary/25 bg-primary/5 p-4 sm:p-5 text-center" style={{ boxShadow: '0 0 30px rgba(212,175,55,0.06)' }}>
             <p className="text-sm sm:text-base font-bold text-foreground leading-snug">
-              📩 ¡Tu copia de <span className="text-primary">&quot;Atracción Silenciosa&quot;</span> ya está reservada y va en camino! Pero ojo...
+              📩 ¡Tu copia gratis de <span className="text-primary">&quot;Atracción Silenciosa&quot;</span> ya está en tu poder! Pero ojo...
             </p>
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
               Descargaste ese manual para <strong className="text-foreground">no mojarte los pies</strong>. Pero si quieres aprender a <strong className="text-primary">nadar en el océano de su obsesión</strong>, necesitas ser un <strong className="text-primary">&quot;Dominante Magnético&quot;</strong>.
