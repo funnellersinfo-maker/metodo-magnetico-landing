@@ -167,7 +167,7 @@ export default function Home() {
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
               Este es el paso avanzado de <strong className="text-foreground">ingeniería social</strong> que el <strong className="text-primary">99% de los hombres</strong> jamás conocerá.
             </p>
-            <p className="mt-3 text-[11px] sm:text-xs tracking-wide text-primary/70 font-semibold">
+            <p className="mt-3 text-[10px] sm:text-[11px] tracking-wide text-primary/70 font-semibold whitespace-nowrap">
               ↓ Sigue leyendo abajo para descubrir cómo funciona... ↓
             </p>
           </div>
