@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 const HOTMART_LINK = 'https://go.hotmart.com/A105474958L?ap=88bf';
@@ -57,10 +57,47 @@ function useViewersCount() {
   return count;
 }
 
+const NAMES = ['Carlos M.','Diego L.','Andrés R.','Miguel A.','Santiago P.','Sebastián G.','Mateo H.','Alejandro F.','Fernando T.','Roberto C.','Javier S.','Ricardo D.','Eduardo V.','Gonzalo M.','Nicolás B.','Pedro J.','Gabriel Q.','Luis R.','Felipe O.','Iván K.','David W.','Marcos N.','Rodrigo E.','Tomás I.','Daniel U.','Camilo Z.','Emilio Y.','Hugo X.','Pablo T.','Raúl G.'];
+const CITIES = [{city:'Ciudad de México',flag:'🇲🇽'},{city:'Bogotá',flag:'🇨🇴'},{city:'Buenos Aires',flag:'🇦🇷'},{city:'Lima',flag:'🇵🇪'},{city:'Santiago',flag:'🇨🇱'},{city:'Quito',flag:'🇪🇨'},{city:'Caracas',flag:'🇻🇪'},{city:'Madrid',flag:'🇪🇸'},{city:'Barcelona',flag:'🇪🇸'},{city:'Guadalajara',flag:'🇲🇽'},{city:'Medellín',flag:'🇨🇴'},{city:'Cali',flag:'🇨🇴'},{city:'Córdoba',flag:'🇦🇷'},{city:'Rosario',flag:'🇦🇷'},{city:'Cusco',flag:'🇵🇪'},{city:'Arequipa',flag:'🇵🇪'},{city:'Valparaíso',flag:'🇨🇱'},{city:'Guayaquil',flag:'🇪🇨'},{city:'Maracaibo',flag:'🇻🇪'},{city:'Valencia',flag:'🇪🇸'},{city:'Sevilla',flag:'🇪🇸'},{city:'Monterrey',flag:'🇲🇽'},{city:'Puebla',flag:'🇲🇽'},{city:'Barranquilla',flag:'🇨🇴'},{city:'Mendoza',flag:'🇦🇷'},{city:'La Paz',flag:'🇧🇴'},{city:'Santa Cruz',flag:'🇧🇴'},{city:'Montevideo',flag:'🇺🇾'},{city:'San José',flag:'🇨🇷'},{city:'Panamá',flag:'🇵🇦'},{city:'San Salvador',flag:'🇸🇻'},{city:'Tegucigalpa',flag:'🇭🇳'},{city:'Guatemala',flag:'🇬🇹'},{city:'Santo Domingo',flag:'🇩🇴'},{city:'La Habana',flag:'🇨🇺'},{city:'San Juan',flag:'🇵🇷'},{city:'Asunción',flag:'🇵🇾'},{city:'Managua',flag:'🇳🇮'},{city:'Bilbao',flag:'🇪🇸'},{city:'Málaga',flag:'🇪🇸'}];
+const TIMES_AGO = ['hace 1 min','hace 2 min','hace 3 min','hace 5 min','ahora mismo'];
+
+function useSocialProof() {
+  const [proof, setProof] = useState<{name:string;city:string;flag:string;time:string}|null>(null);
+  const [dismissed, setDismissed] = useState(false);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+  const getRandomProof = () => {
+    const name = NAMES[Math.floor(Math.random()*NAMES.length)];
+    const loc = CITIES[Math.floor(Math.random()*CITIES.length)];
+    const time = TIMES_AGO[Math.floor(Math.random()*TIMES_AGO.length)];
+    return { name, city: loc.city, flag: loc.flag, time };
+  };
+  useEffect(() => {
+    if (dismissed) { timersRef.current.forEach(clearTimeout); return; }
+    const cycle = () => {
+      setProof(getRandomProof());
+      const hideTimer = setTimeout(() => {
+        setProof(null);
+        const gap = 15000 + Math.random() * 15000;
+        const nextTimer = setTimeout(cycle, gap);
+        timersRef.current.push(nextTimer);
+      }, 5000);
+      timersRef.current.push(hideTimer);
+    };
+    cycle();
+    return () => timersRef.current.forEach(clearTimeout);
+  }, [dismissed]);
+  return { proof, dismiss: () => setDismissed(true) };
+}
+
 export default function Home() {
   const { minutes, seconds } = useCountdown();
   const viewers = useViewersCount();
-  const [showSocialProof, setShowSocialProof] = useState(true);
+  const { proof, dismiss: dismissProof } = useSocialProof();
+  const [showSoundOverlay, setShowSoundOverlay] = useState(true);
+  const [soundActivated, setSoundActivated] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -109,23 +146,15 @@ export default function Home() {
       </div>
 
       {/* Social Proof Notification */}
-      {showSocialProof && (
-        <div className="fixed bottom-20 left-2 right-2 z-[60] mx-auto max-w-xs social-proof-card sm:left-4 sm:right-auto sm:bottom-6 sm:max-w-sm">
-          <div className="flex items-center gap-3 rounded-xl border border-border bg-background p-3 shadow-xl">
-            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/15 text-base">✅</div>
+      {proof && (
+        <div className="fixed bottom-16 left-2 right-2 z-[60] mx-auto max-w-[260px] social-proof-card sm:left-4 sm:right-auto sm:bottom-4">
+          <div className="flex items-center gap-2 rounded-lg border border-border/60 p-2 shadow-lg" style={{ background: 'rgba(10,10,15,0.75)', backdropFilter: 'blur(8px)' }}>
+            <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm">✅</div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-semibold sm:text-sm">
-                Nicolás V. <span className="text-muted-foreground font-normal">acaba de inscribirse</span>
-              </p>
-              <p className="truncate text-[10px] text-muted-foreground sm:text-xs">Quito 🇪🇨 · hace 1 min</p>
+              <p className="truncate text-[11px] font-semibold leading-tight">{proof.name} <span className="text-muted-foreground font-normal text-[10px]">acaba de inscribirse</span></p>
+              <p className="truncate text-[9px] text-muted-foreground leading-tight">{proof.city} {proof.flag} · {proof.time}</p>
             </div>
-            <button
-              aria-label="Cerrar"
-              className="flex-shrink-0 text-muted-foreground hover:text-foreground"
-              onClick={() => setShowSocialProof(false)}
-            >
-              ✕
-            </button>
+            <button aria-label="Cerrar" className="flex-shrink-0 text-muted-foreground/60 hover:text-foreground text-[10px] p-0.5" onClick={dismissProof}>✕</button>
           </div>
         </div>
       )}
@@ -142,6 +171,39 @@ export default function Home() {
             Son las 2 AM. Tu mensaje sigue en{' '}
             <span className="text-primary italic">&quot;visto&quot;</span>… y en su historia ella sale riéndose con OTRO.
           </h1>
+
+          {/* ===== HERO VIDEO ===== */}
+          <div className="relative w-full max-w-[420px] sm:max-w-[480px] mx-auto mt-6 sm:mt-8 mb-6 sm:mb-8">
+            <div className="absolute -inset-4 rounded-2xl animate-video-glow" style={{ background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)', filter: 'blur(20px)' }} />
+            <div className="relative animate-float-video">
+              <div className="absolute -inset-[2px] rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.05), rgba(212,175,55,0.25))' }} />
+              <div className="relative rounded-2xl overflow-hidden">
+                <video ref={videoRef} autoPlay muted playsInline disablePictureInPicture disableRemotePlayback preload="auto" onContextMenu={(e) => e.preventDefault()} onEnded={() => setVideoEnded(true)} style={{ width: '100%', display: 'block', aspectRatio: '16/9', objectFit: 'cover', borderRadius: '14px' }}>
+                  <source src="/assets/hero-video.mp4" type="video/mp4" />
+                </video>
+                {showSoundOverlay && (
+                  <button aria-label="Activar sonido" className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '14px', backdropFilter: 'blur(2px)' }} onClick={() => { if (videoRef.current) { videoRef.current.muted = false; videoRef.current.play(); } setShowSoundOverlay(false); setSoundActivated(true); }}>
+                    <div className="flex items-center justify-center rounded-full animate-volume-pulse" style={{ width: '56px', height: '56px', background: 'rgba(212,175,55,0.15)', border: '1.5px solid rgba(212,175,55,0.4)', boxShadow: '0 0 20px rgba(212,175,55,0.2), 0 0 40px rgba(212,175,55,0.08)' }}>
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="#d4af37" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /></svg>
+                    </div>
+                    <span className="text-[10px] sm:text-[11px] tracking-widest uppercase font-semibold" style={{ color: 'rgba(212,175,55,0.7)' }}>Toca para sonido</span>
+                  </button>
+                )}
+                {(isPaused || videoEnded) && (
+                  <button aria-label={videoEnded ? 'Ver de nuevo' : 'Continuar'} className="absolute inset-0 flex flex-col items-center justify-center gap-3 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.45)', borderRadius: '14px', backdropFilter: 'blur(3px)' }} onClick={() => { if (videoRef.current) { if (videoEnded) { videoRef.current.currentTime = 0; setVideoEnded(false); } videoRef.current.play(); setIsPaused(false); } }}>
+                    <div className="flex items-center justify-center rounded-full" style={{ width: '64px', height: '64px', background: 'rgba(212,175,55,0.2)', border: '2px solid rgba(212,175,55,0.5)', boxShadow: '0 0 30px rgba(212,175,55,0.25), 0 0 60px rgba(212,175,55,0.1)' }}>
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="#d4af37"><path d="M8 5v14l11-7z" /></svg>
+                    </div>
+                    <span className="text-[11px] sm:text-xs tracking-widest uppercase font-semibold" style={{ color: 'rgba(212,175,55,0.7)' }}>{videoEnded ? 'Ver de nuevo' : 'Continuar'}</span>
+                  </button>
+                )}
+                {!showSoundOverlay && !isPaused && !videoEnded && (
+                  <button aria-label="Pausar video" className="absolute inset-0 z-10 cursor-pointer" style={{ borderRadius: '14px' }} onClick={(e) => { e.stopPropagation(); if (videoRef.current) { videoRef.current.pause(); setIsPaused(true); } }} />
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="mx-auto mt-8 max-w-3xl space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground">
             <p>
               Y lo peor no es eso. Lo peor es esa voz en tu cabeza que te dice:{' '}
