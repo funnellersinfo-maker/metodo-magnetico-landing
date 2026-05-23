@@ -105,7 +105,12 @@ function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.
         { threshold: 0.1 }
       );
       observer.observe(el);
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        a1.removeEventListener('ended', onEnd);
+        a2.removeEventListener('ended', onEnd);
+        a1.pause(); a2.pause();
+      };
     }
 
     // Fallback: start on first scroll if observer doesn't fire
@@ -128,7 +133,18 @@ function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.
     };
   }, []);
 
-  return null;
+  // unlockAudio: call from a user gesture (button click) to prime mobile browsers
+  const unlockAudio = () => {
+    const s = storeRef.current;
+    if (!s.a1 || !s.a2) return;
+    // Brief play+pause on each audio during user gesture to unlock autoplay
+    [s.a1, s.a2].forEach((audio) => {
+      audio.volume = 0;
+      audio.play().then(() => audio.pause()).catch(() => {});
+    });
+  };
+
+  return unlockAudio;
 }
 
 function useViewersCount() {
@@ -185,7 +201,7 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoSoundPlaying = soundActivated && !isPaused && !videoEnded;
-  useBackgroundMusic(videoSoundPlaying, videoContainerRef);
+  const unlockAudio = useBackgroundMusic(videoSoundPlaying, videoContainerRef);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -286,7 +302,7 @@ export default function Home() {
                   <source src="/assets/hero-video.mp4" type="video/mp4" />
                 </video>
                 {showSoundOverlay && (
-                  <button aria-label="Activar sonido" className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '14px', backdropFilter: 'blur(2px)' }} onClick={() => { if (videoRef.current) { videoRef.current.currentTime = 0; videoRef.current.muted = false; videoRef.current.play(); } setShowSoundOverlay(false); setSoundActivated(true); setVideoEnded(false); setIsPaused(false); }}>
+                  <button aria-label="Activar sonido" className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '14px', backdropFilter: 'blur(2px)' }} onClick={() => { unlockAudio(); if (videoRef.current) { videoRef.current.currentTime = 0; videoRef.current.muted = false; videoRef.current.play(); } setShowSoundOverlay(false); setSoundActivated(true); setVideoEnded(false); setIsPaused(false); }}>
                     <div className="flex items-center justify-center rounded-full animate-volume-pulse" style={{ width: '56px', height: '56px', background: 'rgba(212,175,55,0.15)', border: '1.5px solid rgba(212,175,55,0.4)', boxShadow: '0 0 20px rgba(212,175,55,0.2), 0 0 40px rgba(212,175,55,0.08)' }}>
                       <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="#d4af37" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /></svg>
                     </div>
