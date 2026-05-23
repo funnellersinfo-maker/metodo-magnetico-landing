@@ -266,19 +266,19 @@ export default function Home() {
       {/* ===== SECTION 1: HERO ===== */}
       <section className="px-4 py-14 sm:py-20">
         <div className="mx-auto max-w-5xl">
-          {/* Lead Magnet Bridge */}
+          {/* Post-Experience FOMO Bridge */}
           <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-primary/25 bg-primary/5 p-4 sm:p-5 text-center" style={{ boxShadow: '0 0 30px rgba(212,175,55,0.06)' }}>
             <p className="text-sm sm:text-base font-bold text-foreground leading-snug">
-              📩 ¡Tu copia gratis de <span className="text-primary">&quot;Atracción Silenciosa&quot;</span> ya está en tu poder! Pero ojo...
+              🔥 Lo que <span className="text-primary">acabas de vivir</span> no fue casualidad. Ese es el sistema biológico que ella <span className="text-primary">NO puede ignorar</span>.
             </p>
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              Descargaste ese manual para <strong className="text-foreground">no mojarte los pies</strong>. Pero si quieres aprender a <strong className="text-primary">nadar en el océano de su obsesión</strong>, necesitas ser un <strong className="text-primary">&quot;Dominante Magnético&quot;</strong>.
+              Si un solo mensaje puede <strong className="text-foreground">cortocircuitar su mente en 7 segundos</strong>... imagina tener <strong className="text-primary">+250 mensajes listos para copiar y pegar</strong> que hacen exactamente eso. Sistema completo. Sin pensar. Sin dudar.
             </p>
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              Este es el paso avanzado de <strong className="text-foreground">ingeniería social</strong> que el <strong className="text-primary">99% de los hombres</strong> jamás conocerá.
+              <strong className="text-primary">Este pack NO va a estar a $14 para siempre.</strong> Cada día que sigas mandando &quot;hola, ¿cómo estás?&quot; es un día más que ella le responde a OTRO.
             </p>
             <p className="mt-3 text-[9px] sm:text-[11px] tracking-wide text-primary/70 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-              ↓ Sigue leyendo abajo para descubrir cómo funciona... ↓
+              ↓ Aquí abajo tienes el sistema completo que ella jamás sabrá que usas ↓
             </p>
           </div>
 
