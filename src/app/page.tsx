@@ -40,7 +40,7 @@ function useCountdown(initialMinutes = 14, initialSeconds = 51) {
   return time;
 }
 
-function useBackgroundMusic(videoSoundActive: boolean) {
+function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.RefObject<HTMLDivElement | null>) {
   const storeRef = useRef<{ a1: HTMLAudioElement | null; a2: HTMLAudioElement | null; cur: HTMLAudioElement | null; on: boolean }>({ a1: null, a2: null, cur: null, on: false });
   const vidRef = useRef(videoSoundActive);
 
@@ -56,7 +56,7 @@ function useBackgroundMusic(videoSoundActive: boolean) {
     }
   }, [videoSoundActive]);
 
-  // Init audio once
+  // Init audio + start when user scrolls past video
   useEffect(() => {
     const a1 = new Audio('/assets/song1.mp3');
     const a2 = new Audio('/assets/song2.mp3');
@@ -73,13 +73,12 @@ function useBackgroundMusic(videoSoundActive: boolean) {
     a1.addEventListener('ended', onEnd);
     a2.addEventListener('ended', onEnd);
 
-    const start = () => {
+    const startMusic = () => {
       const st = storeRef.current;
       if (st.on) return;
       st.on = true;
       st.cur.volume = 0;
       st.cur.play().catch(() => {});
-      // Fade in de 0 a 0.7 en 2 segundos
       const fade = setInterval(() => {
         if (!st.cur) { clearInterval(fade); return; }
         if (st.cur.volume < 0.68) {
@@ -89,17 +88,43 @@ function useBackgroundMusic(videoSoundActive: boolean) {
           clearInterval(fade);
         }
       }, 100);
-      document.removeEventListener('touchstart', start);
-      document.removeEventListener('click', start);
     };
 
-    document.addEventListener('touchstart', start, { once: true });
-    document.addEventListener('click', start, { once: true });
+    // Start music when user scrolls past the video section
+    const el = videoContainerRef.current;
+    if (el) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              startMusic();
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(el);
+      return () => observer.disconnect();
+    }
 
+    // Fallback: start on first scroll if observer doesn't fire
+    const onScroll = () => {
+      const vidEl = videoContainerRef.current;
+      if (vidEl) {
+        const rect = vidEl.getBoundingClientRect();
+        if (rect.bottom < 0) {
+          startMusic();
+          window.removeEventListener('scroll', onScroll);
+        }
+      }
+    };
+    window.addEventListener('scroll', onScroll);
     return () => {
       a1.removeEventListener('ended', onEnd);
       a2.removeEventListener('ended', onEnd);
       a1.pause(); a2.pause();
+      window.removeEventListener('scroll', onScroll);
     };
   }, []);
 
@@ -158,8 +183,9 @@ export default function Home() {
   const [videoEnded, setVideoEnded] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoSoundPlaying = soundActivated && !isPaused && !videoEnded;
-  useBackgroundMusic(videoSoundPlaying);
+  useBackgroundMusic(videoSoundPlaying, videoContainerRef);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -251,7 +277,7 @@ export default function Home() {
           </h1>
 
           {/* ===== HERO VIDEO ===== */}
-          <div className="relative w-full max-w-[420px] sm:max-w-[480px] mx-auto mt-6 sm:mt-8 mb-6 sm:mb-8">
+          <div ref={videoContainerRef} className="relative w-full max-w-[420px] sm:max-w-[480px] mx-auto mt-6 sm:mt-8 mb-6 sm:mb-8">
             <div className="absolute -inset-4 rounded-2xl animate-video-glow" style={{ background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)', filter: 'blur(20px)' }} />
             <div className="relative animate-float-video">
               <div className="absolute -inset-[2px] rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.05), rgba(212,175,55,0.25))' }} />
@@ -260,7 +286,7 @@ export default function Home() {
                   <source src="/assets/hero-video.mp4" type="video/mp4" />
                 </video>
                 {showSoundOverlay && (
-                  <button aria-label="Activar sonido" className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '14px', backdropFilter: 'blur(2px)' }} onClick={() => { if (videoRef.current) { videoRef.current.muted = false; videoRef.current.play(); } setShowSoundOverlay(false); setSoundActivated(true); }}>
+                  <button aria-label="Activar sonido" className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer z-20" style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '14px', backdropFilter: 'blur(2px)' }} onClick={() => { if (videoRef.current) { videoRef.current.currentTime = 0; videoRef.current.muted = false; videoRef.current.play(); } setShowSoundOverlay(false); setSoundActivated(true); setVideoEnded(false); setIsPaused(false); }}>
                     <div className="flex items-center justify-center rounded-full animate-volume-pulse" style={{ width: '56px', height: '56px', background: 'rgba(212,175,55,0.15)', border: '1.5px solid rgba(212,175,55,0.4)', boxShadow: '0 0 20px rgba(212,175,55,0.2), 0 0 40px rgba(212,175,55,0.08)' }}>
                       <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="#d4af37" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#d4af37" strokeWidth="1.8" strokeLinecap="round" /></svg>
                     </div>
