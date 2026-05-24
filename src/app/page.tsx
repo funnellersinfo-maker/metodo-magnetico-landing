@@ -8,14 +8,8 @@ const PRICE_LOCAL = '($14 USD APROX = $55.900 COP / $299 MXN)';
 
 const PAYMENT_BADGES = (
   <div className="mt-4 flex flex-col items-center gap-2">
-    <div className="flex items-center gap-2.5 flex-wrap justify-center">
-      <Image src="/assets/logo-visa.png" alt="Visa" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-mastercard.png" alt="Mastercard" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-oxxo.png" alt="OXXO" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-efecty.png" alt="Efecty" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-pse.png" alt="PSE" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-nequi.png" alt="Nequi" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
-      <Image src="/assets/logo-bancolombia.png" alt="Bancolombia" width={48} height={30} className="h-[22px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+    <div className="flex items-center justify-center w-full max-w-[380px] sm:max-w-[460px]">
+      <img alt="Métodos de pago: Nequi, Bancolombia, PSE, OXXO, Visa, Mastercard" src="/assets/payment-logos-banner.png" className="w-full h-auto object-contain" />
     </div>
     <p className="text-center text-[10px] text-muted-foreground">🔒 Pago 100% seguro · Al tocar el botón verás siempre el precio en tu moneda local</p>
   </div>
@@ -235,6 +229,11 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Mobile Urgency Bar */}
+      <div className="w-full bg-red-950/60 border-b border-red-900/30 py-1 text-center sm:hidden">
+        <p className="text-[10px] font-semibold text-red-300 animate-urgency-pulse">147 personas lo compraron hoy — Quedan <span className="animate-spots-flash font-bold">23</span> cupos al precio de lanzamiento</p>
+      </div>
+
       {/* Live Viewers Badge */}
       <div className="fixed left-2 top-14 z-[60] sm:left-4 sm:top-20">
         <div className="flex items-center gap-1.5 rounded-full border border-border bg-background/95 px-2.5 py-1 shadow-md backdrop-blur sm:px-3 sm:py-1.5">
@@ -389,11 +388,31 @@ export default function Home() {
             {PAYMENT_BADGES}
           </div>
 
+          {/* Urgency Spots */}
+          <div className="mx-auto mt-4 max-w-md flex items-center justify-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500"></span>
+            </span>
+            <p className="text-[11px] font-semibold text-red-400 animate-urgency-pulse">147 personas compraron hoy — Quedan 23 cupos</p>
+          </div>
+
           {/* Social Proof Box */}
           <div className="mx-auto mt-8 max-w-md rounded-xl border border-border bg-muted/40 p-4 text-center">
             <p className="text-2xl">🧮</p>
             <p className="mt-2 text-sm">Inversión de $14 → citas reales. ¿Cuánto gastas en apps que no funcionan?</p>
             <p className="mt-1 text-[11px] text-muted-foreground">Hace un momento</p>
+          </div>
+
+          {/* 3 Errores Box */}
+          <div className="mx-auto mt-8 max-w-md rounded-xl border border-primary/30 bg-primary/5 p-5">
+            <p className="text-center text-sm font-bold text-primary">🎁 3 errores que estás cometiendo AHORA MISMO (gratis):</p>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <li className="flex gap-2"><span className="text-red-400 font-bold">1.</span><span>Responderle al instante cada vez que ella escribe — esto te delata como disponible 24/7 y elimina el misterio</span></li>
+              <li className="flex gap-2"><span className="text-red-400 font-bold">2.</span><span>Mandar mensajes largos cuando ella te responde con monosílabos — cada palabra extra te baja puntos de atractivo</span></li>
+              <li className="flex gap-2"><span className="text-red-400 font-bold">3.</span><span>Usar emojis de corazones antes de que ella los use — la desesperación se siente, no se lee</span></li>
+            </ul>
+            <p className="mt-3 text-center text-xs text-muted-foreground">Dentro del pack hay <strong className="text-foreground">100 errores más</strong> con la solución exacta para cada uno.</p>
           </div>
 
           {/* Offer Box */}

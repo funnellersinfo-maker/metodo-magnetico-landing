@@ -209,6 +209,36 @@
   animation: slideInBottom 0.3s ease-out;
 }
 
+/* Urgency pulse animation */
+.animate-urgency-pulse {
+  animation: urgencyPulse 2s ease-in-out infinite;
+}
+
+@keyframes urgencyPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Spots flash animation for cupos number */
+.animate-spots-flash {
+  animation: spotsFlash 1.5s ease-in-out infinite;
+}
+
+@keyframes spotsFlash {
+  0%, 100% { color: #f87171; }
+  50% { color: #ffffff; text-shadow: 0 0 8px rgba(248, 113, 113, 0.6); }
+}
+
+/* Fade in up animation */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
