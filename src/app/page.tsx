@@ -930,7 +930,7 @@ export default function Home() {
             <span className="chip">⏰ Oferta de Lanzamiento — Se cierra sin aviso</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-center">
-            Bro, esto NO es un precio. Es un regalo que te estoy haciendo antes de que suba a $47.
+            Bro, esto NO es un precio. Es un regalo que te estoy haciendo antes de que suba a $170 USD.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
             Sigue gastando $50 en salidas donde ella ni aparece, o invierte $14 UNA VEZ y nunca más quedes en visto. Tú decides, hermano.
