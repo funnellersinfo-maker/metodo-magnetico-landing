@@ -34,7 +34,7 @@ function useCountdown(initialMinutes = 14, initialSeconds = 51) {
   return time;
 }
 
-function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.RefObject<HTMLDivElement | null>) {
+function useBackgroundMusic(videoSoundActive: boolean, triggerRef: React.RefObject<HTMLElement | null>) {
   const storeRef = useRef<{ a1: HTMLAudioElement | null; a2: HTMLAudioElement | null; cur: HTMLAudioElement | null; on: boolean }>({ a1: null, a2: null, cur: null, on: false });
   const vidRef = useRef(videoSoundActive);
 
@@ -84,19 +84,19 @@ function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.
       }, 100);
     };
 
-    // Start music when user scrolls past the video section
-    const el = videoContainerRef.current;
+    // Start music when user scrolls TO the bundle hero image
+    const el = triggerRef.current;
     if (el) {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
+            if (entry.isIntersecting) {
               startMusic();
               observer.disconnect();
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.3 }
       );
       observer.observe(el);
       return () => {
@@ -107,23 +107,10 @@ function useBackgroundMusic(videoSoundActive: boolean, videoContainerRef: React.
       };
     }
 
-    // Fallback: start on first scroll if observer doesn't fire
-    const onScroll = () => {
-      const vidEl = videoContainerRef.current;
-      if (vidEl) {
-        const rect = vidEl.getBoundingClientRect();
-        if (rect.bottom < 0) {
-          startMusic();
-          window.removeEventListener('scroll', onScroll);
-        }
-      }
-    };
-    window.addEventListener('scroll', onScroll);
     return () => {
       a1.removeEventListener('ended', onEnd);
       a2.removeEventListener('ended', onEnd);
       a1.pause(); a2.pause();
-      window.removeEventListener('scroll', onScroll);
     };
   }, []);
 
@@ -194,8 +181,9 @@ export default function Home() {
   const [isPaused, setIsPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
   const videoSoundPlaying = soundActivated && !isPaused && !videoEnded;
-  const unlockAudio = useBackgroundMusic(videoSoundPlaying, videoContainerRef);
+  const unlockAudio = useBackgroundMusic(videoSoundPlaying, heroImageRef);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -339,7 +327,7 @@ export default function Home() {
           </div>
 
           {/* Hero Image */}
-          <div className="mx-auto mt-10 max-w-2xl">
+          <div ref={heroImageRef} className="mx-auto mt-10 max-w-2xl">
             <Image
               src="/assets/bundle-hero.png"
               alt="Bundle Dominación - 6 Ebooks por solo 14 USD"
