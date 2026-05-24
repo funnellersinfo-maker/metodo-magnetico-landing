@@ -37,6 +37,7 @@ function useCountdown(initialMinutes = 14, initialSeconds = 51) {
 function useBackgroundMusic(videoSoundActive: boolean, triggerRef: React.RefObject<HTMLElement | null>) {
   const storeRef = useRef<{ a1: HTMLAudioElement | null; a2: HTMLAudioElement | null; cur: HTMLAudioElement | null; on: boolean }>({ a1: null, a2: null, cur: null, on: false });
   const vidRef = useRef(videoSoundActive);
+  const startedRef = useRef(false);
 
   // Sync video state + pause/resume
   useEffect(() => {
@@ -50,7 +51,29 @@ function useBackgroundMusic(videoSoundActive: boolean, triggerRef: React.RefObje
     }
   }, [videoSoundActive]);
 
-  // Init audio + start when user scrolls past video
+  // startMusic: accessible from anywhere via storeRef
+  const startMusic = () => {
+    const st = storeRef.current;
+    if (!st.a1 || !st.a2) return;
+    if (startedRef.current) return;
+    startedRef.current = true;
+    st.on = true;
+    st.cur = st.a1;
+    st.cur.volume = 0;
+    st.cur.play().catch(() => {});
+    const fade = setInterval(() => {
+      if (!st.cur) { clearInterval(fade); return; }
+      if (st.cur.volume < 0.68) {
+        st.cur.volume = Math.min(0.7, st.cur.volume + 0.035);
+      } else {
+        st.cur.volume = 0.7;
+        clearInterval(fade);
+      }
+    }, 100);
+  };
+  storeRef.current.startMusic = startMusic as never;
+
+  // Init audio files
   useEffect(() => {
     const a1 = new Audio('/assets/song1.mp3');
     const a2 = new Audio('/assets/song2.mp3');
@@ -67,46 +90,6 @@ function useBackgroundMusic(videoSoundActive: boolean, triggerRef: React.RefObje
     a1.addEventListener('ended', onEnd);
     a2.addEventListener('ended', onEnd);
 
-    const startMusic = () => {
-      const st = storeRef.current;
-      if (st.on) return;
-      st.on = true;
-      st.cur.volume = 0;
-      st.cur.play().catch(() => {});
-      const fade = setInterval(() => {
-        if (!st.cur) { clearInterval(fade); return; }
-        if (st.cur.volume < 0.68) {
-          st.cur.volume = Math.min(0.7, st.cur.volume + 0.035);
-        } else {
-          st.cur.volume = 0.7;
-          clearInterval(fade);
-        }
-      }, 100);
-    };
-
-    // Start music when user scrolls TO the bundle hero image
-    const el = triggerRef.current;
-    if (el) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              startMusic();
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.3 }
-      );
-      observer.observe(el);
-      return () => {
-        observer.disconnect();
-        a1.removeEventListener('ended', onEnd);
-        a2.removeEventListener('ended', onEnd);
-        a1.pause(); a2.pause();
-      };
-    }
-
     return () => {
       a1.removeEventListener('ended', onEnd);
       a2.removeEventListener('ended', onEnd);
@@ -114,15 +97,71 @@ function useBackgroundMusic(videoSoundActive: boolean, triggerRef: React.RefObje
     };
   }, []);
 
-  // unlockAudio: call from a user gesture (button click) to prime mobile browsers
+  // Observer: start music when image enters viewport
+  useEffect(() => {
+    const setup = () => {
+      const el = triggerRef.current;
+      if (!el) return false;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              startMusic();
+              observer.disconnect();
+              return;
+            }
+          }
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(el);
+      return () => observer.disconnect();
+    };
+
+    let cleanup: (() => void) | false = false;
+    cleanup = setup();
+    if (cleanup === false) {
+      const timer = setTimeout(() => { cleanup = setup(); }, 150);
+      return () => { clearTimeout(timer); if (cleanup) cleanup(); };
+    }
+    return () => { if (cleanup) cleanup(); };
+  }, []);
+
+  // Scroll fallback: if observer misses, catch it on scroll
+  useEffect(() => {
+    const onScroll = () => {
+      if (startedRef.current) return;
+      const el = triggerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8 && rect.bottom > 0) {
+        startMusic();
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // unlockAudio: called from user gesture (Activar sonido button)
   const unlockAudio = () => {
     const s = storeRef.current;
     if (!s.a1 || !s.a2) return;
-    // Brief play+pause on each audio during user gesture to unlock autoplay
+    // Unlock each audio with a real play during user gesture
     [s.a1, s.a2].forEach((audio) => {
       audio.volume = 0;
+      audio.currentTime = 0;
       audio.play().then(() => audio.pause()).catch(() => {});
     });
+    // After unlocking, check if image is already visible and start music
+    setTimeout(() => {
+      const el = triggerRef.current;
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          startMusic();
+        }
+      }
+    }, 350);
   };
 
   return unlockAudio;
