@@ -303,9 +303,6 @@ export default function Home() {
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
               <strong className="text-primary">Este pack NO va a estar a $14 para siempre.</strong> Cada día que sigas mandando &quot;hola, ¿cómo estás?&quot; es un día más que ella le responde a OTRO.
             </p>
-            <p className="mt-3 text-[9px] sm:text-[11px] tracking-wide text-primary/70 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-              ↓ Aquí abajo tienes el sistema completo que ella jamás sabrá que usas ↓
-            </p>
             <div className="mt-4 flex justify-center">
               <a
                 href="https://metodo-dante.pages.dev"
