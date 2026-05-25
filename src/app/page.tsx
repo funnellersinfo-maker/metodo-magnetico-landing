@@ -306,6 +306,24 @@ export default function Home() {
             <p className="mt-3 text-[9px] sm:text-[11px] tracking-wide text-primary/70 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
               ↓ Aquí abajo tienes el sistema completo que ella jamás sabrá que usas ↓
             </p>
+            <div className="mt-4 flex justify-center">
+              <a
+                href="https://metodo-dante.pages.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="magic-sparkle-btn"
+              >
+                <span className="sparkle"></span>
+                <span className="sparkle"></span>
+                <span className="sparkle"></span>
+                <span className="sparkle"></span>
+                <span className="sparkle"></span>
+                <span className="sparkle-star">&#10022;</span>
+                <span className="sparkle-star">&#10022;</span>
+                <span className="sparkle-star">&#10022;</span>
+                <span className="relative z-10">Viví tu propio reflejo &#8594;</span>
+              </a>
+            </div>
           </div>
 
           <div className="mb-4 flex justify-center">
