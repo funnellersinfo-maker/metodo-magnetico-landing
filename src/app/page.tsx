@@ -234,7 +234,7 @@ export default function Home() {
       </div>
 
       {/* Live Viewers Badge */}
-      <div className="fixed left-2 top-3 z-[60] sm:left-4 sm:top-3">
+      <div className="fixed left-2 top-8 z-[60] sm:left-4 sm:top-3">
         <div className="flex items-center gap-1.5 rounded-full border border-border bg-background/95 px-2.5 py-1 shadow-md backdrop-blur sm:px-3 sm:py-1.5">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75"></span>
