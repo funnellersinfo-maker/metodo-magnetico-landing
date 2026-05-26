@@ -226,35 +226,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Sticky Top Bar - Timer */}
-      <div className="sticky top-0 z-50 w-full bg-primary text-primary-foreground shadow-lg">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2 sm:px-6 sm:py-3">
-          <div className="flex items-center gap-2 text-xs sm:text-sm">
-            <span className="text-base sm:text-lg">⚠️</span>
-            <span className="hidden sm:inline">Tu precio de</span>
-            <span className="line-through opacity-80">$170</span>
-            <span className="hidden sm:inline">expira en:</span>
-            <span className="sm:hidden">expira:</span>
-          </div>
-          <div className="flex items-center gap-1 sm:gap-2 font-mono">
-            <div className="countdown-box">
-              <span className="countdown-number">{String(minutes).padStart(2, '0')}</span>
-              <span className="countdown-label">MIN</span>
-            </div>
-            <span className="font-bold">:</span>
-            <div className="countdown-box">
-              <span className="countdown-number">{String(seconds).padStart(2, '0')}</span>
-              <span className="countdown-label">SEG</span>
-            </div>
-          </div>
-          <a href={HOTMART_LINK} className="hidden sm:inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-bold text-primary shadow hover:bg-white/90 transition-colors">
-            DESCARGAR AHORA →
-          </a>
-          <a href={HOTMART_LINK} className="sm:hidden inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-[11px] font-bold text-primary">
-            COMPRAR →
-          </a>
-        </div>
-      </div>
+      {/* Sticky Top Bar - Timer (TEMPORARILY DISABLED) */}
 
       {/* Mobile Urgency Bar */}
       <div className="w-full bg-red-950/60 border-b border-red-900/30 py-1 text-center sm:hidden">
@@ -262,7 +234,7 @@ export default function Home() {
       </div>
 
       {/* Live Viewers Badge */}
-      <div className="fixed left-2 top-[4.5rem] z-[60] sm:left-4 sm:top-20">
+      <div className="fixed left-2 top-3 z-[60] sm:left-4 sm:top-3">
         <div className="flex items-center gap-1.5 rounded-full border border-border bg-background/95 px-2.5 py-1 shadow-md backdrop-blur sm:px-3 sm:py-1.5">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75"></span>
@@ -294,33 +266,9 @@ export default function Home() {
         <div className="mx-auto max-w-5xl">
           {/* Post-Experience FOMO Bridge */}
           <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-primary/25 bg-primary/5 p-4 sm:p-5 text-center" style={{ boxShadow: '0 0 30px rgba(212,175,55,0.06)' }}>
-            <p className="text-sm sm:text-base font-bold text-foreground leading-snug">
-              🔥 Lo que <span className="text-primary">acabas de vivir</span> no fue casualidad. Ese es el sistema biológico que ella <span className="text-primary">NO puede ignorar</span>.
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              La atracción por mensaje tiene reglas invisibles. El 93% de los hombres las desconoce y por eso mandan <strong className="text-foreground">&quot;hola, ¿cómo estás?&quot;</strong> esperando un resultado diferente. Lo que está debajo no es motivación: es el <strong className="text-primary">sistema exacto de comunicación</strong> que transforma tu celular en una máquina de citas reales. Sin pensar. Sin dudar. Solo copiar, pegar y ver cómo ella responde diferente.
             </p>
-            <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              Si un solo mensaje puede <strong className="text-foreground">cortocircuitar su mente en 7 segundos</strong>... imagina tener <strong className="text-primary">+250 mensajes listos para copiar y pegar</strong> que hacen exactamente eso. Sistema completo. Sin pensar. Sin dudar.
-            </p>
-            <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              <strong className="text-primary">Este pack NO va a estar a $14 para siempre.</strong> Cada día que sigas mandando &quot;hola, ¿cómo estás?&quot; es un día más que ella le responde a OTRO.
-            </p>
-            <div className="mt-4 flex justify-center">
-              <a
-                href="https://metodo-dante.pages.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="magic-sparkle-btn"
-              >
-                <span className="sparkle"></span>
-                <span className="sparkle"></span>
-                <span className="sparkle"></span>
-                <span className="sparkle"></span>
-                <span className="sparkle"></span>
-                <span className="sparkle-star">&#10022;</span>
-                <span className="sparkle-star">&#10022;</span>
-                <span className="sparkle-star">&#10022;</span>
-                <span className="relative z-10">Viví tu propio reflejo &#8594;</span>
-              </a>
-            </div>
           </div>
 
           <div className="mb-4 flex justify-center">
