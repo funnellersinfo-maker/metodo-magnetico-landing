@@ -896,6 +896,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== SECTION 11.5: REAL Social Proof Mirror ===== */}
+      <section className="px-4 py-14 sm:py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="chip mb-4 inline-block">📱 Captura real — Sin editar</span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold">
+              Así es como ella ve tu mensaje.
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground">
+              Esto le enviaron HOY. Mientras tú lees esto, alguien más le está mandando <strong className="text-foreground">exactamente lo mismo</strong>. ¿Ves el patrón?
+            </p>
+          </div>
+
+          {/* Screenshot container */}
+          <div className="mx-auto mt-8 max-w-[340px] sm:max-w-[380px]">
+            <div className="relative rounded-2xl overflow-hidden border-2 border-primary/30 shadow-2xl" style={{ boxShadow: '0 0 40px rgba(220,38,38,0.15), 0 20px 60px rgba(0,0,0,0.5)' }}>
+              <img
+                src="/assets/social-proof-real-chat.jpg"
+                alt="Captura real de WhatsApp donde un hombre envía mensajes genéricos"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          {/* Mirror FOMO copy */}
+          <div className="mx-auto mt-8 max-w-2xl text-center">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              &quot;Princesa hermosa&quot;. &quot;Muñequita&quot;. Cada día <strong className="text-foreground">miles de hombres</strong> le mandan lo mismo. Ella los lee, bosteza y los archiva. <strong className="text-primary">No porque seas tú — porque NO le das nada diferente.</strong>
+            </p>
+            <p className="mt-3 text-sm sm:text-base font-semibold text-foreground">
+              Ese screenshot es un espejo. Si no cambias lo que escribes, mañana ella le mostrará tu mensaje a sus amigas y se van a reír igual.
+            </p>
+            <p className="mt-3 text-xs text-primary/80 font-semibold">
+              ↓ El bundle te enseña a ser el mensaje que ella SÍ abre ↓
+            </p>
+          </div>
+
+          <div className="mx-auto mt-6 max-w-md">
+            <a href={HOTMART_LINK} className="cta-btn pulse-ring">🔥 NO QUIERO SER UNO MÁS DEL MONTÓN — $14 USD</a>
+            <p className="mt-3 text-center text-xs sm:text-sm text-muted-foreground">Acceso inmediato · 6 ebooks · Garantía 7 días</p>
+            <p className="mt-1 text-center text-[11px] font-semibold text-primary">($14 USD APROX = $55.900 COP / $299 MXN)</p>
+          </div>
+        </div>
+      </section>
+
       {/* ===== SECTION 12: Testimonial ===== */}
       <section className="px-4 py-14 sm:py-20 bg-muted/30">
         <div className="mx-auto max-w-5xl">
